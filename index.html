@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SwiftCart | E-Commerce</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/your-code.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">SwiftCart</div>
+        <ul class="menu">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Products</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+        <div class="cart-icon">
+            <i class="fas fa-shopping-cart"></i>
+            <span id="cart-count">0</span>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-content">
+            <h1>Best Collection For You</h1>
+            <p>Discover the latest trends in fashion, electronics, and more.</p>
+            <button class="btn-primary">Shop Now</button>
+        </div>
+    </header>
+
+    <section class="categories-section">
+        <div id="category-container" class="category-list">
+            </div>
+    </section>
+
+    <section class="features">
+        <h2>Why Choose Us</h2>
+        <div class="feature-grid">
+            <div class="feature-card">
+                <i class="fas fa-truck"></i>
+                <h3>Fast Delivery</h3>
+                <p>Get your orders delivered to your doorstep quickly.</p>
+            </div>
+            </div>
+    </section>
+    <div id="product-modal" class="modal-overlay hidden">
+    <div class="modal-content">
+        <button id="close-modal" class="close-btn">&times;</button>
+        <div id="modal-body">
+            </div>
+    </div>
+</div>
+
+
+    <main id="product-container" class="product-grid">
+        </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
