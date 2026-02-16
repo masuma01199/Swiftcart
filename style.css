@@ -27,7 +27,14 @@
     object-fit: contain; /* Keeps images from stretching */
     margin-bottom: 12px;
 }
+/* style.css */
+.category-btn {
+    @apply px-5 py-2 rounded-full border border-gray-300 transition-all;
+}
 
+.category-btn.active {
+    @apply bg-indigo-600 text-white border-indigo-600;
+}
 .badge {
     background: #eef2ff;
     color: #4f46e5;

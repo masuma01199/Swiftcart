@@ -26,39 +26,68 @@
         </div>
     </nav>
 
-    <header class="relative h-[400px] flex items-center justify-center text-center text-white"
-        style="background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('banner-image.jpg') center/cover;">
-        <div>
-            <h2 class="text-4xl font-bold mb-4">Best Collection For You</h2>
-            <p class="mb-6">Discover the latest trends in fashion and electronics.</p>
-            <button class="bg-indigo-600 px-6 py-3 rounded-lg font-bold hover:bg-indigo-700">Shop Now</button>
-        </div>
-    </header>
+  <header class="relative h-[450px] flex items-center justify-center text-white">
+    <div class="absolute inset-0 z-0">
+        <img src="banner-image.png" class="w-full h-full object-cover" alt="Banner">
+        <div class="absolute inset-0 bg-black/40"></div> </div>
+    
+    <div class="relative z-10 text-center px-4">
+        <h2 class="text-5xl font-bold mb-4">Best Collection For You</h2>
+        <p class="text-lg mb-6 max-w-xl mx-auto">Discover the latest trends in fashion, electronics, and more. Shop with confidence and style at SwiftCart.</p>
+        <button class="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-3 rounded-md font-bold transition">
+            Shop Now
+        </button>
+    </div>
+</header>
+    <section class="py-16 bg-gray-50 text-center">
+    <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold mb-2">Why Choose Us</h2>
+        <p class="text-gray-600 mb-12">We provide the best shopping experience with top-notch services.</p>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div class="bg-white p-8 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition">
+                <div class="bg-indigo-100 text-indigo-600 w-12 h-12 flex items-center justify-center rounded-lg mx-auto mb-4">
+                    <i class="fas fa-truck text-xl"></i>
+                </div>
+                <h3 class="font-bold text-lg mb-2">Fast Delivery</h3>
+                <p class="text-gray-500 text-sm">Get your orders delivered to your doorstep quickly and efficiently.</p>
+            </div>
 
+            <div class="bg-white p-8 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition">
+                <div class="bg-indigo-100 text-indigo-600 w-12 h-12 flex items-center justify-center rounded-lg mx-auto mb-4">
+                    <i class="fas fa-headset text-xl"></i>
+                </div>
+                <h3 class="font-bold text-lg mb-2">24/7 Support</h3>
+                <p class="text-gray-500 text-sm">Our support team is available around the clock to assist you.</p>
+            </div>
+
+            <div class="bg-white p-8 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition">
+                <div class="bg-indigo-100 text-indigo-600 w-12 h-12 flex items-center justify-center rounded-lg mx-auto mb-4">
+                    <i class="fas fa-shield-alt text-xl"></i>
+                </div>
+                <h3 class="font-bold text-lg mb-2">Secure Payment</h3>
+                <p class="text-gray-500 text-sm">Experience safe and secure transactions with our encrypted systems.</p>
+            </div>
+
+            <div class="bg-white p-8 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition">
+                <div class="bg-indigo-100 text-indigo-600 w-12 h-12 flex items-center justify-center rounded-lg mx-auto mb-4">
+                    <i class="fas fa-sync-alt text-xl"></i>
+                </div>
+                <h3 class="font-bold text-lg mb-2">Easy Returns</h3>
+                <p class="text-gray-500 text-sm">Not satisfied? Return your products easily within 30 days.</p>
+            </div>
+        </div>
+    </div>
+</section>
+ <section class="container mx-auto px-4 py-12">
+    <h2 class="text-2xl font-bold mb-8">Trending Now</h2>
+    <div id="trending-container" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        </div>
+</section>
     <section class="categories-section">
         <div id="category-container" class="category-list">
         </div>
     </section>
-
-    <section class="features">
-        <h2>Why Choose Us</h2>
-        <div class="feature-grid">
-            <div class="feature-card">
-                <i class="fas fa-truck"></i>
-                <h3>Fast Delivery</h3>
-                <p>Get your orders delivered to your doorstep quickly.</p>
-            </div>
-        </div>
-    </section>
-    <div id="product-modal" class="modal-overlay hidden">
-        <div class="modal-content">
-            <button id="close-modal" class="close-btn">&times;</button>
-            <div id="modal-body">
-            </div>
-        </div>
-    </div>
-
-
     <main id="product-container" class="product-grid">
     </main>
 

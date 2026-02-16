@@ -56,20 +56,25 @@ const loadProducts = async (category) => {
         const productCard = document.createElement('div');
         productCard.className = 'product-card';
         
-        // Use Template Literals for the Card UI
-        productCard.innerHTML = `
-            <img src="${product.image}" alt="${product.title}" class="product-img">
-            <div class="product-info">
-                <span class="badge">${product.category}</span>
-                <p class="rating">⭐ ${product.rating.rate} (${product.rating.count})</p>
-                <h3 title="${product.title}">${product.title.slice(0, 20)}...</h3>
-                <p class="price">$${product.price}</p>
-                <div class="card-buttons">
-                    <button onclick="showDetails(${product.id})" class="btn-details">Details</button>
-                    <button onclick="addToCart(${product.id})" class="btn-add">Add to Cart</button>
-                </div>
+       productCard.innerHTML = `
+    <div class="bg-white border rounded-xl p-4 flex flex-col h-full hover:shadow-lg transition">
+        <div class="h-48 mb-4 overflow-hidden">
+            <img src="${product.image}" class="w-full h-full object-contain" alt="${product.title}">
+        </div>
+        <div class="flex-grow">
+            <span class="text-xs font-semibold text-indigo-600 bg-indigo-50 px-2 py-1 rounded-full">${product.category}</span>
+            <div class="flex justify-between items-center my-2">
+                <p class="text-yellow-500 text-sm font-bold">⭐ ${product.rating.rate} <span class="text-gray-400 font-normal">(${product.rating.count})</span></p>
             </div>
-        `;
+            <h3 class="font-bold text-gray-800 line-clamp-1" title="${product.title}">${product.title}</h3>
+            <p class="text-xl font-bold text-gray-900 mt-2">$${product.price}</p>
+        </div>
+        <div class="grid grid-cols-2 gap-2 mt-4">
+            <button onclick="showDetails(${product.id})" class="border border-gray-300 py-2 rounded-md hover:bg-gray-50 text-sm">Details</button>
+            <button onclick="addToCart(${product.id})" class="bg-indigo-600 text-white py-2 rounded-md hover:bg-indigo-700 text-sm">Add</button>
+        </div>
+    </div>
+`;
         productContainer.appendChild(productCard);
     });
 };
@@ -155,3 +160,16 @@ const removeFromCart = (index) => {
     updateCartUI();
     // Re-render your cart list here to reflect changes
 };
+const loadTrendingProducts = async () => {
+    const products = await fetchApiData('https://fakestoreapi.com/products?limit=3');
+    const trendingContainer = document.getElementById('trending-container');
+    
+    products.forEach(product => {
+        // You can reuse your product card generation logic here
+        const card = createProductCard(product); 
+        trendingContainer.appendChild(card);
+    });
+};
+
+// Call this in your initialization
+loadTrendingProducts();
