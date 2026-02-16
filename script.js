@@ -1,4 +1,4 @@
-// Central function to fetch data from the API
+// 1. Central function to fetch data from the API
 const fetchApiData = async (url) => {
     try {
         const response = await fetch(url);
@@ -10,53 +10,16 @@ const fetchApiData = async (url) => {
     }
 };
 
-const categoryContainer = document.getElementById('category-container');
-
-const loadCategories = async () => {
-    const categories = await fetchApiData('https://fakestoreapi.com/products/categories');
-    
-    // Add an "All" button first to show all products
-    const allBtn = document.createElement('button');
-    allBtn.innerText = 'All';
-    allBtn.className = "category-btn px-4 py-2 m-2 border rounded-full transition-colors duration-300 bg-indigo-600 text-white active-btn";; // Add your CSS classes here
-    allBtn.onclick = () => loadProducts('all');
-    categoryContainer.appendChild(allBtn);
-
-    // Create buttons for each category from the API
-    categories.forEach(category => {
-        const btn = document.createElement('button');
-        btn.innerText = category.charAt(0).toUpperCase() + category.slice(1);
-        btn.className = "px-4 py-2 m-2 border rounded-full transition-colors duration-300";
-        btn.onclick = () => {
-            // Logic to highlight active state
-            document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            
-            loadProducts(category);
-        };
-        categoryContainer.appendChild(btn);
-    });
-};
-
+// 2. Global State
+let cart = [];
+const cartCountElement = document.getElementById('cart-count');
 const productContainer = document.getElementById('product-container');
+const categoryContainer = document.getElementById('category-container');
+const trendingContainer = document.getElementById('trending-container');
 
-const loadProducts = async (category) => {
-    // 1. Show Loading Spinner
-    productContainer.innerHTML = '<div class="spinner">Loading...</div>';
-
-    let url = 'https://fakestoreapi.com/products';
-    if (category !== 'all') {
-        url = `https://fakestoreapi.com/products/category/${category}`;
-    }
-
-    const products = await fetchApiData(url);
-    productContainer.innerHTML = ''; // Clear spinner
-
-    products.forEach(product => {
-        const productCard = document.createElement('div');
-        productCard.className = 'product-card';
-        
-       productCard.innerHTML = `
+// 3. Helper: Create Product Card HTML (Reusable for Trending and Main Grid)
+const createProductCard = (product) => {
+    return `
     <div class="bg-white border rounded-xl p-4 flex flex-col h-full hover:shadow-lg transition">
         <div class="h-48 mb-4 overflow-hidden">
             <img src="${product.image}" class="w-full h-full object-contain" alt="${product.title}">
@@ -73,74 +36,82 @@ const loadProducts = async (category) => {
             <button onclick="showDetails(${product.id})" class="border border-gray-300 py-2 rounded-md hover:bg-gray-50 text-sm">Details</button>
             <button onclick="addToCart(${product.id})" class="bg-indigo-600 text-white py-2 rounded-md hover:bg-indigo-700 text-sm">Add</button>
         </div>
-    </div>
-`;
-        productContainer.appendChild(productCard);
+    </div>`;
+};
+
+// 4. Load Trending Products (Top 3)
+const loadTrending = async () => {
+    if (!trendingContainer) return; // Only run if the element exists on home page
+    const products = await fetchApiData('https://fakestoreapi.com/products?limit=3');
+    trendingContainer.innerHTML = products.map(p => createProductCard(p)).join('');
+};
+
+// 5. Load Main Products Grid
+const loadProducts = async (category) => {
+    productContainer.innerHTML = '<div class="spinner col-span-full"></div>'; // Center spinner
+
+    let url = (category === 'all') 
+        ? 'https://fakestoreapi.com/products' 
+        : `https://fakestoreapi.com/products/category/${category}`;
+
+    const products = await fetchApiData(url);
+    productContainer.innerHTML = ''; 
+
+    products.forEach(product => {
+        const div = document.createElement('div');
+        div.innerHTML = createProductCard(product);
+        productContainer.appendChild(div.firstElementChild);
     });
 };
+// Function to switch between Home and Products
+window.showPage = (page) => {
+    const homeView = document.getElementById('home-view');
+    const productsView = document.getElementById('products-view');
 
-// Initialize the app
-loadCategories();
-loadProducts('all');
-
-const modal = document.getElementById('product-modal');
-const modalBody = document.getElementById('modal-body');
-const closeBtn = document.getElementById('close-modal');
-
-// Function to show modal with full details
-const showDetails = async (id) => {
-    // Fetch single product data
-    const product = await fetchApiData(`https://fakestoreapi.com/products/${id}`);
-    
-    // Inject full details into the modal
-    modalBody.innerHTML = `
-        <div class="modal-detail-wrapper">
-            <img src="${product.image}" alt="${product.title}" class="modal-img">
-            <div class="modal-info">
-                <h2>${product.title}</h2>
-                <p class="modal-category">Category: ${product.category}</p>
-                <p class="modal-description">${product.description}</p>
-                <p class="modal-rating">⭐ ${product.rating.rate} / 5</p>
-                <p class="modal-price">$${product.price}</p>
-                <button class="btn-add" onclick="addToCart(${product.id})">Add to Cart</button>
-            </div>
-        </div>
-    `;
-    
-    // Show the modal
-    modal.classList.remove('hidden');
-    modal.classList.add('flex'); // Using flex to center it
-};
-
-// Close modal logic
-closeBtn.onclick = () => {
-    modal.classList.add('hidden');
-    modal.classList.remove('flex');
-};
-
-// Close modal if user clicks outside the content box
-window.onclick = (event) => {
-    if (event.target === modal) {
-        modal.classList.add('hidden');
-        modal.classList.remove('flex');
+    if (page === 'home') {
+        homeView.classList.remove('hidden');
+        productsView.classList.add('hidden');
+    } else if (page === 'products') {
+        homeView.classList.add('hidden');
+        productsView.classList.remove('hidden');
+        // Optional: Load products automatically when clicking the link
+        loadProducts('all');
     }
 };
+// 6. Category Loading & Filtering
+const loadCategories = async () => {
+    const categories = await fetchApiData('https://fakestoreapi.com/products/categories');
+    
+    // Default All Button
+    let html = `<button onclick="filterByCategory('all', this)" class="category-btn active-btn px-6 py-2 rounded-full border border-indigo-600 bg-indigo-600 text-white text-sm font-medium">All</button>`;
+    
+    categories.forEach(cat => {
+        html += `
+            <button onclick="filterByCategory('${cat}', this)" class="category-btn px-6 py-2 rounded-full border border-gray-300 hover:bg-gray-100 transition text-sm font-medium">
+                ${cat.charAt(0).toUpperCase() + cat.slice(1)}
+            </button>`;
+    });
+    categoryContainer.innerHTML = html;
+};
 
-let cart = [];
-const cartCountElement = document.getElementById('cart-count');
+// Fixed function name to match your HTML calls
+window.filterByCategory = (category, btn) => {
+    // UI: Toggle Active Classes
+    document.querySelectorAll('.category-btn').forEach(b => {
+        b.classList.remove('bg-indigo-600', 'text-white', 'border-indigo-600', 'active-btn');
+        b.classList.add('border-gray-300', 'bg-white', 'text-black');
+    });
+    btn.classList.add('bg-indigo-600', 'text-white', 'border-indigo-600', 'active-btn');
+    btn.classList.remove('border-gray-300', 'bg-white', 'text-black');
 
-// Function to handle adding items to cart
-const addToCart = async (id) => {
-    // 1. Fetch the product details
+    loadProducts(category);
+};
+
+// 7. Cart Logic
+window.addToCart = async (id) => {
     const product = await fetchApiData(`https://fakestoreapi.com/products/${id}`);
-    
-    // 2. Add to the cart array
     cart.push(product);
-    
-    // 3. Update the UI Count
     updateCartUI();
-    
-    // 4. Bonus: Save to LocalStorage
     localStorage.setItem('swiftCart', JSON.stringify(cart));
 };
 
@@ -148,28 +119,39 @@ const updateCartUI = () => {
     cartCountElement.innerText = cart.length;
 };
 
-const calculateTotal = () => {
-    // Uses .reduce() to sum up all product prices
-    const total = cart.reduce((sum, item) => sum + item.price, 0);
-    return total.toFixed(2);
-};
+// 8. Modal Logic
+const modal = document.getElementById('product-modal');
+const modalBody = document.getElementById('modal-body');
 
-// Example function to remove an item
-const removeFromCart = (index) => {
-    cart.splice(index, 1); // Remove 1 item at that index
-    updateCartUI();
-    // Re-render your cart list here to reflect changes
-};
-const loadTrendingProducts = async () => {
-    const products = await fetchApiData('https://fakestoreapi.com/products?limit=3');
-    const trendingContainer = document.getElementById('trending-container');
+window.showDetails = async (id) => {
+    const product = await fetchApiData(`https://fakestoreapi.com/products/${id}`);
     
-    products.forEach(product => {
-        // You can reuse your product card generation logic here
-        const card = createProductCard(product); 
-        trendingContainer.appendChild(card);
-    });
+    modalBody.innerHTML = `
+        <div class="flex flex-col md:flex-row gap-6">
+            <img src="${product.image}" alt="${product.title}" class="w-full md:w-1/2 h-64 object-contain">
+            <div class="modal-info">
+                <h2 class="text-2xl font-bold mb-2">${product.title}</h2>
+                <span class="bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full text-xs font-bold">${product.category}</span>
+                <p class="text-gray-600 my-4 text-sm leading-relaxed">${product.description}</p>
+                <div class="flex justify-between items-center mb-6">
+                    <p class="text-2xl font-bold text-gray-900">$${product.price}</p>
+                    <p class="text-yellow-500 font-bold">⭐ ${product.rating.rate} / 5</p>
+                </div>
+                <button class="w-full bg-indigo-600 text-white py-3 rounded-lg font-bold hover:bg-indigo-700 transition" 
+                        onclick="addToCart(${product.id})">Add to Cart</button>
+            </div>
+        </div>`;
+    
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
 };
 
-// Call this in your initialization
-loadTrendingProducts();
+document.getElementById('close-modal').onclick = () => {
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+};
+
+// Initialize
+loadTrending();
+loadCategories();
+loadProducts('all');
