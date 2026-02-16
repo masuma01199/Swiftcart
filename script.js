@@ -1,4 +1,3 @@
-// 1. Central function to fetch data from the API
 const fetchApiData = async (url) => {
     try {
         const response = await fetch(url);
@@ -10,14 +9,12 @@ const fetchApiData = async (url) => {
     }
 };
 
-// 2. Global State
 let cart = [];
 const cartCountElement = document.getElementById('cart-count');
 const productContainer = document.getElementById('product-container');
 const categoryContainer = document.getElementById('category-container');
 const trendingContainer = document.getElementById('trending-container');
 
-// 3. Helper: Create Product Card HTML (Reusable for Trending and Main Grid)
 const createProductCard = (product) => {
     return `
     <div class="bg-white border rounded-xl p-4 flex flex-col h-full hover:shadow-lg transition">
@@ -39,23 +36,35 @@ const createProductCard = (product) => {
     </div>`;
 };
 
-// 4. Load Trending Products (Top 3)
 const loadTrending = async () => {
-    if (!trendingContainer) return; // Only run if the element exists on home page
     const products = await fetchApiData('https://fakestoreapi.com/products?limit=3');
-    trendingContainer.innerHTML = products.map(p => createProductCard(p)).join('');
+    const container = document.getElementById('trending-container');
+    container.innerHTML = '';
+
+    products.forEach(product => {
+        container.innerHTML += `
+            <div class="bg-white border rounded-xl p-4 shadow-sm hover:shadow-md transition">
+                <img src="${product.image}" class="h-48 w-full object-contain mb-4">
+                <h3 class="font-bold line-clamp-1">${product.title}</h3>
+                <p class="text-xl font-bold mt-2">$${product.price}</p>
+                <div class="flex gap-2 mt-4">
+                    <button onclick="showDetails(${product.id})" class="flex-1 border py-2 rounded-md text-sm">Details</button>
+                    <button onclick="addToCart(${product.id})" class="flex-1 bg-indigo-600 text-white py-2 rounded-md text-sm">Add</button>
+                </div>
+            </div>
+        `;
+    });
 };
 
-// 5. Load Main Products Grid
 const loadProducts = async (category) => {
-    productContainer.innerHTML = '<div class="spinner col-span-full"></div>'; // Center spinner
+    productContainer.innerHTML = '<div class="spinner col-span-full"></div>';
 
-    let url = (category === 'all') 
-        ? 'https://fakestoreapi.com/products' 
+    let url = (category === 'all')
+        ? 'https://fakestoreapi.com/products'
         : `https://fakestoreapi.com/products/category/${category}`;
 
     const products = await fetchApiData(url);
-    productContainer.innerHTML = ''; 
+    productContainer.innerHTML = '';
 
     products.forEach(product => {
         const div = document.createElement('div');
@@ -63,7 +72,7 @@ const loadProducts = async (category) => {
         productContainer.appendChild(div.firstElementChild);
     });
 };
-// Function to switch between Home and Products
+
 window.showPage = (page) => {
     const homeView = document.getElementById('home-view');
     const productsView = document.getElementById('products-view');
@@ -74,58 +83,97 @@ window.showPage = (page) => {
     } else if (page === 'products') {
         homeView.classList.add('hidden');
         productsView.classList.remove('hidden');
-        // Optional: Load products automatically when clicking the link
         loadProducts('all');
     }
 };
-// 6. Category Loading & Filtering
 const loadCategories = async () => {
     const categories = await fetchApiData('https://fakestoreapi.com/products/categories');
-    
-    // Default All Button
+
     let html = `<button onclick="filterByCategory('all', this)" class="category-btn active-btn px-6 py-2 rounded-full border border-indigo-600 bg-indigo-600 text-white text-sm font-medium">All</button>`;
-    
     categories.forEach(cat => {
         html += `
-            <button onclick="filterByCategory('${cat}', this)" class="category-btn px-6 py-2 rounded-full border border-gray-300 hover:bg-gray-100 transition text-sm font-medium">
-                ${cat.charAt(0).toUpperCase() + cat.slice(1)}
-            </button>`;
+        <button onclick="filterByCategory(\`${cat}\`, this)" class="category-btn px-6 py-2 rounded-full border border-gray-300 hover:bg-gray-100 transition text-sm font-medium">
+            ${cat.charAt(0).toUpperCase() + cat.slice(1)}
+        </button>`;
     });
     categoryContainer.innerHTML = html;
 };
 
-// Fixed function name to match your HTML calls
 window.filterByCategory = (category, btn) => {
-    // UI: Toggle Active Classes
     document.querySelectorAll('.category-btn').forEach(b => {
-        b.classList.remove('bg-indigo-600', 'text-white', 'border-indigo-600', 'active-btn');
+        b.classList.remove('bg-indigo-600', 'text-white', 'border-indigo-600');
         b.classList.add('border-gray-300', 'bg-white', 'text-black');
     });
-    btn.classList.add('bg-indigo-600', 'text-white', 'border-indigo-600', 'active-btn');
+
+    btn.classList.add('bg-indigo-600', 'text-white', 'border-indigo-600');
     btn.classList.remove('border-gray-300', 'bg-white', 'text-black');
 
     loadProducts(category);
 };
+window.toggleCart = () => {
+    const sidebar = document.getElementById('cart-sidebar');
+    const overlay = document.getElementById('cart-overlay');
+    sidebar.classList.toggle('translate-x-full');
+    overlay.classList.toggle('hidden');
+};
 
-// 7. Cart Logic
 window.addToCart = async (id) => {
     const product = await fetchApiData(`https://fakestoreapi.com/products/${id}`);
+
     cart.push(product);
-    updateCartUI();
+
     localStorage.setItem('swiftCart', JSON.stringify(cart));
+
+    updateCartUI();
+
+
+    toggleCart();
 };
 
 const updateCartUI = () => {
-    cartCountElement.innerText = cart.length;
+    const cartCount = document.getElementById('cart-count');
+    const cartItemsContainer = document.getElementById('cart-items');
+    const cartTotal = document.getElementById('cart-total');
+
+    cartCount.innerText = cart.length;
+
+    cartItemsContainer.innerHTML = '';
+    let total = 0;
+
+    cart.forEach((item, index) => {
+        total += item.price;
+        cartItemsContainer.innerHTML += `
+            <div class="flex items-center gap-3 border-b pb-3">
+                <img src="${item.image}" class="w-12 h-12 object-contain">
+                <div class="flex-grow">
+                    <h4 class="text-sm font-bold line-clamp-1">${item.title}</h4>
+                    <p class="text-indigo-600 font-semibold">$${item.price}</p>
+                </div>
+                <button onclick="removeFromCart(${index})" class="text-red-500 hover:bg-red-50 p-1 rounded">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </div>
+        `;
+    });
+
+    cartTotal.innerText = `$${total.toFixed(2)}`;
 };
 
-// 8. Modal Logic
+window.removeFromCart = (index) => {
+    cart.splice(index, 1);
+    localStorage.setItem('swiftCart', JSON.stringify(cart));
+    updateCartUI();
+};
+
+document.querySelector('.fa-shopping-cart').parentElement.onclick = toggleCart;
+
+
 const modal = document.getElementById('product-modal');
 const modalBody = document.getElementById('modal-body');
 
 window.showDetails = async (id) => {
     const product = await fetchApiData(`https://fakestoreapi.com/products/${id}`);
-    
+
     modalBody.innerHTML = `
         <div class="flex flex-col md:flex-row gap-6">
             <img src="${product.image}" alt="${product.title}" class="w-full md:w-1/2 h-64 object-contain">
@@ -141,7 +189,7 @@ window.showDetails = async (id) => {
                         onclick="addToCart(${product.id})">Add to Cart</button>
             </div>
         </div>`;
-    
+
     modal.classList.remove('hidden');
     modal.classList.add('flex');
 };
@@ -151,7 +199,6 @@ document.getElementById('close-modal').onclick = () => {
     modal.classList.remove('flex');
 };
 
-// Initialize
 loadTrending();
 loadCategories();
 loadProducts('all');

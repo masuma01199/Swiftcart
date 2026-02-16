@@ -14,75 +14,83 @@
 
     <nav class="flex justify-between items-center p-5 shadow-md bg-white sticky top-0 z-50">
         <h1 class="text-2xl font-bold text-indigo-600">SwiftCart</h1>
-       <ul class="hidden md:flex gap-6 font-medium">
-    <li onclick="showPage('home')" class="cursor-pointer hover:text-indigo-600">Home</li>
-    <li onclick="showPage('products')" class="cursor-pointer hover:text-indigo-600">Products</li>
+        <ul class="hidden md:flex gap-6 font-medium">
+            <li onclick="showPage('home')" class="cursor-pointer hover:text-indigo-600 transition">Home</li>
+            <li onclick="showPage('products')" class="cursor-pointer hover:text-indigo-600 transition">Products</li>
             <li class="cursor-pointer hover:text-indigo-600">About</li>
             <li class="cursor-pointer hover:text-indigo-600">Contact</li>
         </ul>
         <div class="relative cursor-pointer">
             <i class="fas fa-shopping-cart text-xl"></i>
             <span id="cart-count"
-                class="absolute -top-2 -right-2 bg-indigo-600 text-white rounded-full px-2 text-xs">0</span>
+                class="absolute -top-2 -right-2 bg-indigo-600 text-white rounded-full px-2 text-xs font-bold">0</span>
         </div>
     </nav>
+
     <div id="home-view">
-        <header class="relative h-[450px] flex items-center justify-center text-white">
+        <header class="relative h-[500px] flex items-center justify-center text-white">
             <div class="absolute inset-0 z-0">
                 <img src="banner-image.png" class="w-full h-full object-cover" alt="Banner">
-                <div class="absolute inset-0 bg-black/40"></div>
+                <div class="absolute inset-0 bg-black/50"></div>
             </div>
 
             <div class="relative z-10 text-center px-4">
                 <h2 class="text-5xl font-bold mb-4">Best Collection For You</h2>
-                <p class="text-lg mb-6 max-w-xl mx-auto">Discover the latest trends in fashion, electronics, and more.
-                    Shop with confidence and style at SwiftCart.</p>
-                <button class="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-3 rounded-md font-bold transition">
+                <p class="text-lg mb-8 max-w-xl mx-auto text-gray-200">Discover the latest trends in fashion,
+                    electronics, and more. Shop with confidence and style at SwiftCart.</p>
+                <button onclick="showPage('products')"
+                    class="bg-indigo-600 hover:bg-indigo-700 text-white px-10 py-4 rounded-lg font-bold transition-all transform hover:scale-105">
                     Shop Now
                 </button>
             </div>
         </header>
 
-        <section class="py-16 bg-gray-50 text-center">
+        <section class="py-16 bg-gray-50">
             <div class="container mx-auto px-4">
-                <h2 class="text-3xl font-bold mb-2">Why Choose Us</h2>
-                <p class="text-gray-600 mb-12">We provide the best shopping experience with top-notch services.</p>
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold mb-2">Why Choose Us</h2>
+                    <p class="text-gray-600">We provide the best shopping experience with top-notch services.</p>
+                </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                    <div class="bg-white p-8 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition">
+                    <div
+                        class="bg-white p-8 rounded-xl shadow-sm border border-gray-100 hover:shadow-lg transition group">
                         <div
-                            class="bg-indigo-100 text-indigo-600 w-12 h-12 flex items-center justify-center rounded-lg mx-auto mb-4">
-                            <i class="fas fa-truck text-xl"></i>
+                            class="bg-indigo-100 text-indigo-600 w-14 h-14 flex items-center justify-center rounded-xl mx-auto mb-4 group-hover:bg-indigo-600 group-hover:text-white transition">
+                            <i class="fas fa-truck text-2xl"></i>
                         </div>
                         <h3 class="font-bold text-lg mb-2">Fast Delivery</h3>
                         <p class="text-gray-500 text-sm">Get your orders delivered to your doorstep quickly and
                             efficiently.</p>
                     </div>
 
-                    <div class="bg-white p-8 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition">
+                    <div
+                        class="bg-white p-8 rounded-xl shadow-sm border border-gray-100 hover:shadow-lg transition group">
                         <div
-                            class="bg-indigo-100 text-indigo-600 w-12 h-12 flex items-center justify-center rounded-lg mx-auto mb-4">
-                            <i class="fas fa-headset text-xl"></i>
+                            class="bg-indigo-100 text-indigo-600 w-14 h-14 flex items-center justify-center rounded-xl mx-auto mb-4 group-hover:bg-indigo-600 group-hover:text-white transition">
+                            <i class="fas fa-headset text-2xl"></i>
                         </div>
                         <h3 class="font-bold text-lg mb-2">24/7 Support</h3>
                         <p class="text-gray-500 text-sm">Our support team is available around the clock to assist you.
                         </p>
                     </div>
 
-                    <div class="bg-white p-8 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition">
+                    <div
+                        class="bg-white p-8 rounded-xl shadow-sm border border-gray-100 hover:shadow-lg transition group">
                         <div
-                            class="bg-indigo-100 text-indigo-600 w-12 h-12 flex items-center justify-center rounded-lg mx-auto mb-4">
-                            <i class="fas fa-shield-alt text-xl"></i>
+                            class="bg-indigo-100 text-indigo-600 w-14 h-14 flex items-center justify-center rounded-xl mx-auto mb-4 group-hover:bg-indigo-600 group-hover:text-white transition">
+                            <i class="fas fa-shield-alt text-2xl"></i>
                         </div>
                         <h3 class="font-bold text-lg mb-2">Secure Payment</h3>
                         <p class="text-gray-500 text-sm">Experience safe and secure transactions with our encrypted
                             systems.</p>
                     </div>
 
-                    <div class="bg-white p-8 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition">
+                    <div
+                        class="bg-white p-8 rounded-xl shadow-sm border border-gray-100 hover:shadow-lg transition group">
                         <div
-                            class="bg-indigo-100 text-indigo-600 w-12 h-12 flex items-center justify-center rounded-lg mx-auto mb-4">
-                            <i class="fas fa-sync-alt text-xl"></i>
+                            class="bg-indigo-100 text-indigo-600 w-14 h-14 flex items-center justify-center rounded-xl mx-auto mb-4 group-hover:bg-indigo-600 group-hover:text-white transition">
+                            <i class="fas fa-sync-alt text-2xl"></i>
                         </div>
                         <h3 class="font-bold text-lg mb-2">Easy Returns</h3>
                         <p class="text-gray-500 text-sm">Not satisfied? Return your products easily within 30 days.</p>
@@ -92,60 +100,91 @@
         </section>
 
         <section class="container mx-auto px-4 py-16">
-            <h2 class="text-3xl font-bold mb-8 text-center">Trending Now</h2>
+            <h2 class="text-3xl font-bold mb-8 text-center text-gray-800">Trending Now</h2>
             <div id="trending-container" class="grid grid-cols-1 md:grid-cols-3 gap-8">
             </div>
         </section>
     </div>
-    <div id="products-view" class="hidden">
-        <section class="container mx-auto px-4 py-10">
-            <h2 class="text-3xl font-bold mb-8 text-center">Our Products</h2>
 
-            <div id="category-container" class="flex flex-wrap justify-center gap-4 mb-10">
+    <div id="products-view" class="hidden min-h-[60vh]">
+        <section class="container mx-auto px-4 py-12">
+            <h2 class="text-4xl font-extrabold mb-4 text-center text-gray-900">Our Products</h2>
+            <p class="text-center text-gray-500 mb-10">Browse our latest collection by category</p>
+
+            <div id="category-container" class="flex flex-wrap justify-center gap-4 mb-12">
             </div>
 
             <main id="product-container" class="product-grid">
             </main>
         </section>
     </div>
+
     <div id="product-modal"
-        class="modal-overlay hidden fixed inset-0 bg-black/70 z-[100] flex justify-center items-center p-4">
-        <div class="modal-content bg-white rounded-2xl max-w-3xl w-full p-6 relative max-h-[90vh] overflow-y-auto">
+        class="modal-overlay hidden fixed inset-0 bg-black/80 z-[100] flex justify-center items-center p-4 backdrop-blur-sm">
+        <div
+            class="modal-content bg-white rounded-3xl max-w-4xl w-full p-8 relative max-h-[90vh] shadow-2xl overflow-y-auto">
             <button id="close-modal"
-                class="absolute top-4 right-4 text-2xl font-bold hover:text-red-500">&times;</button>
+                class="absolute top-5 right-5 text-3xl font-light text-gray-400 hover:text-red-500 transition">&times;</button>
             <div id="modal-body">
             </div>
         </div>
     </div>
+    <div id="cart-sidebar"
+        class="fixed top-0 right-0 h-full w-80 bg-white shadow-2xl z-[60] transform translate-x-full transition-transform duration-300 flex flex-col">
+        <div class="p-5 border-b flex justify-between items-center bg-indigo-600 text-white">
+            <h2 class="text-xl font-bold">Your Cart</h2>
+            <button onclick="toggleCart()" class="text-2xl">&times;</button>
+        </div>
 
-    <footer class="bg-slate-900 text-white pt-16 pb-8">
-        <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-10">
+        <div id="cart-items" class="flex-grow overflow-y-auto p-4 space-y-4">
+        </div>
+
+        <div class="p-5 border-t bg-gray-50">
+            <div class="flex justify-between items-center mb-4">
+                <span class="text-lg font-semibold">Total:</span>
+                <span id="cart-total" class="text-xl font-bold text-indigo-600">$0.00</span>
+            </div>
+            <button
+                class="w-full bg-indigo-600 text-white py-3 rounded-lg font-bold hover:bg-indigo-700">Checkout</button>
+        </div>
+    </div>
+
+    <div id="cart-overlay" onclick="toggleCart()" class="fixed inset-0 bg-black/50 z-[55] hidden"></div>
+    <footer class="bg-slate-900 text-white pt-16 pb-10">
+        <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12">
             <div class="col-span-1">
                 <h2 class="text-2xl font-bold mb-4 text-indigo-400">SwiftCart</h2>
-                <p class="text-gray-400 text-sm">Your premium destination for fashion and electronics. Quality products,
-                    fast delivery.</p>
+                <p class="text-gray-400 text-sm leading-relaxed">Your premium destination for fashion and electronics.
+                    Delivering quality directly to your doorstep since 2025.</p>
             </div>
             <div>
                 <h3 class="font-bold mb-4 border-b border-gray-700 pb-2">Quick Links</h3>
-                <ul class="text-gray-400 space-y-2 text-sm">
-                    <li class="hover:text-white cursor-pointer">Home</li>
-                    <li class="hover:text-white cursor-pointer">Products</li>
-                    <li class="hover:text-white cursor-pointer">About</li>
+                <ul class="text-gray-400 space-y-3 text-sm">
+                    <li onclick="showPage('home')" class="hover:text-white cursor-pointer transition">Home</li>
+                    <li onclick="showPage('products')" class="hover:text-white cursor-pointer transition">Products</li>
+                    <li class="hover:text-white cursor-pointer transition">About Us</li>
+                    <li class="hover:text-white cursor-pointer transition">Contact Us</li>
                 </ul>
             </div>
             <div class="md:col-span-2">
                 <h3 class="font-bold mb-4 border-b border-gray-700 pb-2">Subscribe to our Newsletter</h3>
-                <p class="text-gray-400 text-sm mb-4">Get the latest updates and offers directly in your inbox.</p>
-                <div class="flex gap-2">
-                    <input type="email" placeholder="Enter your email"
-                        class="w-full p-2 rounded text-black outline-none focus:ring-2 focus:ring-indigo-500">
+                <p class="text-gray-400 text-sm mb-4">Get the latest updates, exclusive deals, and shopping tips.</p>
+                <div class="flex gap-0 group">
+                    <input type="email" placeholder="Your email address"
+                        class="w-full p-3 rounded-l-lg text-black outline-none border-2 border-transparent focus:border-indigo-600 transition">
                     <button
-                        class="bg-indigo-600 px-6 py-2 rounded hover:bg-indigo-700 font-bold transition whitespace-nowrap">Subscribe</button>
+                        class="bg-indigo-600 px-8 py-3 rounded-r-lg hover:bg-indigo-700 font-bold transition whitespace-nowrap">Subscribe</button>
                 </div>
             </div>
         </div>
-        <div class="mt-12 text-center text-gray-500 text-xs border-t border-gray-800 pt-8">
-            &copy; 2025 SwiftCart, Inc. All rights reserved.
+        <div
+            class="mt-16 text-center text-gray-500 text-xs border-t border-gray-800 pt-8 flex flex-col items-center gap-4">
+            <div class="flex gap-6 text-xl mb-2">
+                <i class="fab fa-facebook hover:text-white cursor-pointer transition"></i>
+                <i class="fab fa-instagram hover:text-white cursor-pointer transition"></i>
+                <i class="fab fa-twitter hover:text-white cursor-pointer transition"></i>
+            </div>
+            <p>&copy; 2025 SwiftCart, Inc. All rights reserved.</p>
         </div>
     </footer>
 
