@@ -4,36 +4,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SwiftCart | E-Commerce</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
-    <script src="https://kit.fontawesome.com/your-code.js" crossorigin="anonymous"></script>
 </head>
+
 <body>
 
-    <nav class="navbar">
-        <div class="logo">SwiftCart</div>
-        <ul class="menu">
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Products</a></li>
-            <li><a href="#">About</a></li>
-            <li><a href="#">Contact</a></li>
+    <nav class="flex justify-between items-center p-5 shadow-md bg-white sticky top-0 z-50">
+        <h1 class="text-2xl font-bold text-indigo-600">SwiftCart</h1>
+        <ul class="hidden md:flex gap-6 font-medium">
+            <li>Home</li>
+            <li>Products</li>
+            <li>About</li>
+            <li>Contact</li>
         </ul>
-        <div class="cart-icon">
-            <i class="fas fa-shopping-cart"></i>
-            <span id="cart-count">0</span>
+        <div class="relative">
+            <i class="fas fa-shopping-cart text-xl"></i>
+            <span id="cart-count"
+                class="absolute -top-2 -right-2 bg-indigo-600 text-white rounded-full px-2 text-xs">0</span>
         </div>
     </nav>
 
-    <header class="hero">
-        <div class="hero-content">
-            <h1>Best Collection For You</h1>
-            <p>Discover the latest trends in fashion, electronics, and more.</p>
-            <button class="btn-primary">Shop Now</button>
+    <header class="relative h-[400px] flex items-center justify-center text-center text-white"
+        style="background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('banner-image.jpg') center/cover;">
+        <div>
+            <h2 class="text-4xl font-bold mb-4">Best Collection For You</h2>
+            <p class="mb-6">Discover the latest trends in fashion and electronics.</p>
+            <button class="bg-indigo-600 px-6 py-3 rounded-lg font-bold hover:bg-indigo-700">Shop Now</button>
         </div>
     </header>
 
     <section class="categories-section">
         <div id="category-container" class="category-list">
-            </div>
+        </div>
     </section>
 
     <section class="features">
@@ -44,20 +48,21 @@
                 <h3>Fast Delivery</h3>
                 <p>Get your orders delivered to your doorstep quickly.</p>
             </div>
-            </div>
+        </div>
     </section>
     <div id="product-modal" class="modal-overlay hidden">
-    <div class="modal-content">
-        <button id="close-modal" class="close-btn">&times;</button>
-        <div id="modal-body">
+        <div class="modal-content">
+            <button id="close-modal" class="close-btn">&times;</button>
+            <div id="modal-body">
             </div>
+        </div>
     </div>
-</div>
 
 
     <main id="product-container" class="product-grid">
-        </main>
+    </main>
 
     <script src="script.js"></script>
 </body>
+
 </html>

@@ -18,7 +18,7 @@ const loadCategories = async () => {
     // Add an "All" button first to show all products
     const allBtn = document.createElement('button');
     allBtn.innerText = 'All';
-    allBtn.className = 'category-btn active'; // Add your CSS classes here
+    allBtn.className = "category-btn px-4 py-2 m-2 border rounded-full transition-colors duration-300 bg-indigo-600 text-white active-btn";; // Add your CSS classes here
     allBtn.onclick = () => loadProducts('all');
     categoryContainer.appendChild(allBtn);
 
@@ -26,7 +26,7 @@ const loadCategories = async () => {
     categories.forEach(category => {
         const btn = document.createElement('button');
         btn.innerText = category.charAt(0).toUpperCase() + category.slice(1);
-        btn.className = 'category-btn';
+        btn.className = "px-4 py-2 m-2 border rounded-full transition-colors duration-300";
         btn.onclick = () => {
             // Logic to highlight active state
             document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
@@ -119,4 +119,39 @@ window.onclick = (event) => {
         modal.classList.add('hidden');
         modal.classList.remove('flex');
     }
+};
+
+let cart = [];
+const cartCountElement = document.getElementById('cart-count');
+
+// Function to handle adding items to cart
+const addToCart = async (id) => {
+    // 1. Fetch the product details
+    const product = await fetchApiData(`https://fakestoreapi.com/products/${id}`);
+    
+    // 2. Add to the cart array
+    cart.push(product);
+    
+    // 3. Update the UI Count
+    updateCartUI();
+    
+    // 4. Bonus: Save to LocalStorage
+    localStorage.setItem('swiftCart', JSON.stringify(cart));
+};
+
+const updateCartUI = () => {
+    cartCountElement.innerText = cart.length;
+};
+
+const calculateTotal = () => {
+    // Uses .reduce() to sum up all product prices
+    const total = cart.reduce((sum, item) => sum + item.price, 0);
+    return total.toFixed(2);
+};
+
+// Example function to remove an item
+const removeFromCart = (index) => {
+    cart.splice(index, 1); // Remove 1 item at that index
+    updateCartUI();
+    // Re-render your cart list here to reflect changes
 };
